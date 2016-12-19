@@ -1,0 +1,74 @@
+﻿@using FiespTeste.Models
+@model EmpresaModels
+@{
+    ViewBag.Title = "Teste Fiesp";
+}
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h4>Criar novo registro</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.RazaoSocial, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.RazaoSocial, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Faturamento, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Faturamento, new { @class = "form-control", type = "number" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ExpectativaVenda, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ExpectativaVenda, new { @class = "form-control", type = "number" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Vendedores, new { @class = "col-md-2 control-label" })
+        <div class="col-md-4">
+            @Html.DropDownListFor(m => m.Vendedor, Model.Vendedores, "Selecione um item", new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <input type="button" class="btn btn-default" onclick="selecionarPessoa();" value="Selecionar" />
+        </div>
+    </div>
+
+    <div class="col-md-offset-2 col-md-10">
+        <span id="telefone"></span>
+    </div>
+    <div class="col-md-offset-2 col-md-10">
+        <span id="regiao"></span>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style="margin-top: 30px;">
+            <input type="submit" class="btn btn-default" value="Salvar" />
+        </div>
+    </div>    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    function selecionarPessoa() {
+        var id = $('[id*=Vendedores] option:selected').val();
+        $.ajax({
+            dataType: "json",
+            url: '/Home/RecuperarVendedor',
+            data: { id: id },
+            success: function (data) {
+                $('#telefone').text('Telefone: ' + data.Telefone)
+                $('#regiao').text('Região: ' + data.Telefone)
+            }
+        });
+    }
+</script>
