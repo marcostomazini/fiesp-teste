@@ -60,7 +60,7 @@
 
 <script type="text/javascript">
     function selecionarPessoa() {
-        var id = $('[id*=Vendedores] option:selected').val();
+        var id = $('[id*=Vendedor] option:selected').val();
         $.ajax({
             dataType: "json",
             url: '/Home/RecuperarVendedor',
